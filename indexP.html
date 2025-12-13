@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siri Chandana | Portfolio</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styles -->
+    <style>
+        /* Custom Scrollbar Hide for Nav */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(3rem);
+            transition: all 1s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Typewriter Cursor */
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            background-color: #FFD400;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Subtle float animation for background elements */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-yellow': '#FFD400',
+                        'brand-dark': '#2e2e2e',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#F5F5F5] text-slate-900 font-sans selection:bg-brand-yellow selection:text-black">
+
+    <!-- Skip Link -->
+    <a href="#hero" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[100] px-4 py-2 bg-brand-yellow text-black font-bold rounded">
+        Skip to content
+    </a>
+
+    <!-- Contact Modal (Hidden by default) -->
+    <div id="contactModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModal('contactModal')"></div>
+        <div class="relative bg-white w-full max-w-lg rounded-2xl p-6 shadow-2xl animate-[fadeIn_0.3s_ease-out]">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-slate-900">Get in Touch</h3>
+                <button onclick="toggleModal('contactModal')" class="p-2 hover:bg-slate-100 rounded-full transition-colors" aria-label="Close modal">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="space-y-6">
+                <p class="text-slate-600">I'm currently available for freelance work and internships. Let's connect!</p>
+                <div class="grid gap-4">
+                    <a href="mailto:kotasirichandana7@gmail.com" class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-brand-yellow transition-colors group">
+                        <div class="p-3 bg-white rounded-full shadow-sm group-hover:bg-brand-yellow transition-colors">
+                            <i data-lucide="mail" class="w-5 h-5 text-slate-800"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-slate-400 uppercase">Email Me</p>
+                            <p class="font-medium text-slate-900">kotasirichandana7@gmail.com</p>
+                        </div>
+                    </a>
+                    <a href="tel:6300487424" class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-brand-yellow transition-colors group">
+                        <div class="p-3 bg-white rounded-full shadow-sm group-hover:bg-brand-yellow transition-colors">
+                            <i data-lucide="phone" class="w-5 h-5 text-slate-800"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-slate-400 uppercase">Phone</p>
+                            <p class="font-medium text-slate-900">6300487424</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Details Modal (Dynamic Content) -->
+    <div id="projectModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeProjectModal()"></div>
+        <div class="relative bg-white w-full max-w-lg rounded-2xl p-6 shadow-2xl overflow-y-auto max-h-[90vh]">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-slate-900" id="modalTitle">Project Title</h3>
+                <button onclick="closeProjectModal()" class="p-2 hover:bg-slate-100 rounded-full transition-colors" aria-label="Close modal">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="space-y-6">
+                <div>
+                    <span id="modalType" class="text-xs font-bold bg-slate-900 text-white px-3 py-1 rounded-full uppercase tracking-wider">Type</span>
+                    <p id="modalSubtitle" class="text-sm font-semibold text-slate-400 mt-2">Subtitle</p>
+                </div>
+                <p id="modalDescription" class="text-slate-700 leading-relaxed">Description goes here...</p>
+                <div id="modalTags" class="flex flex-wrap gap-2">
+                    <!-- Tags injected here -->
+                </div>
+                <a id="modalLink" href="#" target="_blank" rel="noreferrer" class="block w-full text-center py-3 bg-brand-yellow text-black font-bold rounded-lg hover:bg-black hover:text-brand-yellow transition-all">
+                    Visit Project Link
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out bg-transparent py-6">
+        <div class="w-full px-6 flex items-center justify-between">
+            <!-- Brand -->
+            <a href="#hero" class="z-50 relative group focus:outline-none focus:ring-2 focus:ring-brand-yellow rounded shrink-0 mr-4 lg:mr-8">
+                <span id="brandText" class="text-xl font-bold tracking-widest uppercase transition-colors text-slate-900">
+                    SIRI.PORTFOLIO
+                </span>
+            </a>
+
+            <!-- Scrollable Nav Container -->
+            <div class="flex-1 overflow-x-auto no-scrollbar flex items-center">
+                <div class="flex items-center gap-6 min-w-max px-2" id="navLinksContainer">
+                    <a href="#hero" class="nav-link font-medium tracking-wide transition-all duration-300 relative group text-sm hover:text-brand-yellow whitespace-nowrap text-slate-900">
+                        Home
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-yellow transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#about-me" class="nav-link font-medium tracking-wide transition-all duration-300 relative group text-sm hover:text-brand-yellow whitespace-nowrap text-slate-900">
+                        About Me
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-yellow transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#skills" class="nav-link font-medium tracking-wide transition-all duration-300 relative group text-sm hover:text-brand-yellow whitespace-nowrap text-slate-900">
+                        Skills
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-yellow transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#projects" class="nav-link font-medium tracking-wide transition-all duration-300 relative group text-sm hover:text-brand-yellow whitespace-nowrap text-slate-900">
+                        Projects
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-yellow transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#research" class="nav-link font-medium tracking-wide transition-all duration-300 relative group text-sm hover:text-brand-yellow whitespace-nowrap text-slate-900">
+                        Research
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-yellow transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#internships" class="nav-link font-medium tracking-wide transition-all duration-300 relative group text-sm hover:text-brand-yellow whitespace-nowrap text-slate-900">
+                        Internships
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-yellow transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#certifications" class="nav-link font-medium tracking-wide transition-all duration-300 relative group text-sm hover:text-brand-yellow whitespace-nowrap text-slate-900">
+                        Certifications
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-yellow transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#achievements" class="nav-link font-medium tracking-wide transition-all duration-300 relative group text-sm hover:text-brand-yellow whitespace-nowrap text-slate-900">
+                        Achievements
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-yellow transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#activities" class="nav-link font-medium tracking-wide transition-all duration-300 relative group text-sm hover:text-brand-yellow whitespace-nowrap text-slate-900">
+                        Extracurriculars
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-yellow transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <button onclick="toggleModal('contactModal')" class="nav-link font-medium tracking-wide transition-all duration-300 relative group text-sm hover:text-brand-yellow whitespace-nowrap text-slate-900">
+                        Contact
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-yellow transition-all duration-300 group-hover:w-full"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative pt-32 pb-20 lg:pt-48 lg:pb-24 px-6 overflow-hidden bg-white">
+        <!-- Background Effects -->
+        <div class="absolute inset-0 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none"></div>
+
+        <div class="container mx-auto max-w-4xl relative z-10 text-center">
+            
+            <!-- Profile Photo -->
+            <div class="reveal">
+                <div class="relative inline-block mb-10 group">
+                    <div class="absolute inset-0 bg-brand-yellow rounded-full blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
+                    <img 
+                        src="./assets/Siri_Portfolio_Image.jpeg"
+                        alt="Siri Chandana — profile photo"
+                        class="relative w-48 h-48 lg:w-56 lg:h-56 object-cover rounded-full border-[6px] border-white shadow-xl transform transition-transform duration-500 hover:scale-105"
+                        onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Siri&backgroundColor=b6e3f4'; this.alt='Placeholder (Upload photo to assets/Siri_Portfolio_Image.jpeg)';"
+                    />
+                </div>
+            </div>
+
+            <!-- Greeting -->
+            <div class="reveal">
+                <h1 class="text-5xl lg:text-7xl font-black text-slate-900 mb-4 tracking-tight leading-tight">
+                    Hello, I'm <br />
+                    <span class="relative inline-block mt-2">
+                        <span class="relative z-10">Siri Chandana</span>
+                        <span class="absolute bottom-2 left-0 right-0 h-4 bg-brand-yellow -z-0 rotate-1"></span>
+                    </span>
+                </h1>
+            </div>
+            
+            <!-- Typewriter -->
+            <div class="reveal">
+                <div class="h-10 mb-6">
+                    <span id="typewriter" class="text-xl lg:text-2xl text-slate-600 font-medium"></span><span class="cursor">|</span>
+                </div>
+            </div>
+
+            <!-- Social Icons -->
+            <div class="reveal">
+                <div class="flex justify-center gap-6 mb-8">
+                    <a href="mailto:kotasirichandana7@gmail.com" class="p-3 bg-white rounded-full shadow-md text-slate-600 hover:text-brand-yellow hover:shadow-lg hover:-translate-y-1 transition-all border border-slate-100">
+                        <i data-lucide="mail" class="w-6 h-6"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/siri-chandana-kota-aa4340298/" target="_blank" rel="noopener noreferrer" class="p-3 bg-white rounded-full shadow-md text-slate-600 hover:text-brand-yellow hover:shadow-lg hover:-translate-y-1 transition-all border border-slate-100">
+                        <i data-lucide="linkedin" class="w-6 h-6"></i>
+                    </a>
+                    <a href="https://github.com/Siri-2256?tab=repositories" target="_blank" rel="noopener noreferrer" class="p-3 bg-white rounded-full shadow-md text-slate-600 hover:text-brand-yellow hover:shadow-lg hover:-translate-y-1 transition-all border border-slate-100">
+                        <i data-lucide="github" class="w-6 h-6"></i>
+                    </a>
+                    <a href="https://www.credly.com/users/siri-chandana-kota.e0f72217/badges#credly" target="_blank" rel="noopener noreferrer" class="p-3 bg-white rounded-full shadow-md text-slate-600 hover:text-brand-yellow hover:shadow-lg hover:-translate-y-1 transition-all border border-slate-100">
+                        <i data-lucide="award" class="w-6 h-6"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Paragraph -->
+            <div class="reveal">
+                <p class="text-lg text-slate-600 font-medium max-w-2xl mx-auto mb-10">
+                    Passionate about building clean, accessible, and performant front-end experiences. I blend UI craftsmanship with AI research to build tools that are both usable and trustworthy.
+                </p>
+            </div>
+
+            <!-- CTAs -->
+            <div class="reveal">
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a href="#projects" class="px-8 py-4 bg-brand-yellow text-black font-bold rounded-full shadow-[0_4px_0_rgb(0,0,0)] active:shadow-none active:translate-y-[4px] hover:bg-black hover:text-brand-yellow transition-all border-2 border-transparent hover:border-brand-yellow">
+                        View Projects
+                    </a>
+                    <button onclick="toggleModal('contactModal')" class="px-8 py-4 bg-white text-slate-900 font-bold rounded-full border-2 border-slate-200 hover:border-black hover:bg-black hover:text-white transition-all shadow-sm">
+                        Contact Me
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about-me" class="py-20 bg-white border-t border-slate-100">
+        <div class="reveal container mx-auto px-6 max-w-4xl text-center">
+            <div class="inline-block p-4 bg-[#FFF9C4] rounded-full mb-6">
+                <i data-lucide="code" class="w-8 h-8 text-black"></i>
+            </div>
+            <h2 class="text-3xl font-black text-slate-900 uppercase mb-6 tracking-wide">About Me</h2>
+            <p class="text-xl text-slate-700 leading-relaxed max-w-3xl mx-auto font-light">
+                I am a <strong class="font-bold text-black">Computer Science undergraduate</strong> specializing in AI & ML and a passionate <strong class="font-bold text-black">Frontend Developer Enthusiast</strong>. 
+                I focus on building pixel-perfect, accessible, and user-centered interfaces that elevate both functionality and experience. I bridge the gap between research-grade AI systems and real-world applications by transforming complex technologies into clean, intuitive visuals and interactions.
+                <br /><br />
+                My strengths include <strong class="font-bold text-black">modern UI design principles</strong>, component architecture, responsive layouts, performance optimization, and enhancing transparency in AI systems through <strong class="font-bold text-black">Explainable AI (XAI)</strong>. 
+                I enjoy shaping raw data and ideas into meaningful digital experiences and delivering polished, reliable products users love and trust.
+            </p>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-[#F9FAFB]">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="reveal">
+                <div class="flex items-end gap-4 mb-12 border-b-2 border-slate-200 pb-4">
+                    <i data-lucide="cpu" class="w-10 h-10 text-brand-yellow mb-2"></i>
+                    <h2 class="text-4xl font-black text-slate-900 uppercase tracking-tight">Skills</h2>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="reveal bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg transition-all hover:-translate-y-1">
+                    <h3 class="text-xl font-bold text-slate-900 mb-4 border-l-4 border-brand-yellow pl-3">Technical Skills</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-50 border border-slate-200 text-sm font-medium text-slate-700 rounded-full">Java</span>
+                        <span class="px-3 py-1 bg-gray-50 border border-slate-200 text-sm font-medium text-slate-700 rounded-full">Python</span>
+                        <span class="px-3 py-1 bg-gray-50 border border-slate-200 text-sm font-medium text-slate-700 rounded-full">OOP</span>
+                        <span class="px-3 py-1 bg-gray-50 border border-slate-200 text-sm font-medium text-slate-700 rounded-full">REST APIs</span>
+                    </div>
+                </div>
+                <div class="reveal bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg transition-all hover:-translate-y-1">
+                    <h3 class="text-xl font-bold text-slate-900 mb-4 border-l-4 border-brand-yellow pl-3">AI & ML</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-50 border border-slate-200 text-sm font-medium text-slate-700 rounded-full">TensorFlow</span>
+                        <span class="px-3 py-1 bg-gray-50 border border-slate-200 text-sm font-medium text-slate-700 rounded-full">Scikit-learn</span>
+                        <span class="px-3 py-1 bg-gray-50 border border-slate-200 text-sm font-medium text-slate-700 rounded-full">Pandas</span>
+                        <span class="px-3 py-1 bg-gray-50 border border-slate-200 text-sm font-medium text-slate-700 rounded-full">NumPy</span>
+                        <span class="px-3 py-1 bg-gray-50 border border-slate-200 text-sm font-medium text-slate-700 rounded-full">XAI</span>
+                    </div>
+                </div>
+                <div class="reveal bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg transition-all hover:-translate-y-1">
+                    <h3 class="text-xl font-bold text-slate-900 mb-4 border-l-4 border-brand-yellow pl-3">Tools & Others</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-50 border border-slate-200 text-sm font-medium text-slate-700 rounded-full">Git</span>
+                        <span class="px-3 py-1 bg-gray-50 border border-slate-200 text-sm font-medium text-slate-700 rounded-full">GitHub</span>
+                        <span class="px-3 py-1 bg-gray-50 border border-slate-200 text-sm font-medium text-slate-700 rounded-full">VS Code</span>
+                        <span class="px-3 py-1 bg-gray-50 border border-slate-200 text-sm font-medium text-slate-700 rounded-full">UI/UX Design</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-white relative">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="reveal">
+                <div class="flex items-end gap-4 mb-12 border-b-2 border-slate-200 pb-4">
+                    <h2 class="text-4xl font-black text-slate-900 uppercase tracking-tight">Featured Projects</h2>
+                    <div class="h-4 w-24 bg-brand-yellow mb-2 hidden md:block"></div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8" id="projectsGrid">
+                <!-- Projects injected by JS -->
+                <!-- Project 1 -->
+                <div class="reveal h-full">
+                    <div class="group bg-[#FAFAFA] border border-slate-200 p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col h-full">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <span class="text-xs font-bold bg-black text-brand-yellow px-3 py-1 rounded-full uppercase tracking-wider">ML Project</span>
+                                <h3 class="text-2xl font-bold text-slate-900 mt-4 group-hover:text-[#D4AF00] transition-colors">Obesity Risk Classification</h3>
+                                <p class="text-sm font-semibold text-slate-500 mt-1">Deep Learning & Explainable AI</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 mb-8 leading-relaxed line-clamp-3 flex-grow">Built multiple ML models to classify obesity levels with 97% accuracy using a custom DeepHealthNet neural network. Includes SHAP-based interpretability.</p>
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#Deep Learning</span>
+                            <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#Python</span>
+                        </div>
+                        <div class="flex gap-4 mt-auto">
+                            <button onclick="openProjectModal('Obesity Risk Classification')" class="flex-1 py-3 px-4 border-2 border-slate-200 text-slate-800 font-bold rounded-lg hover:border-black hover:bg-black hover:text-brand-yellow transition-colors">View Details</button>
+                            <a href="https://colab.research.google.com/drive/1SgQp8Y4oYEC6eTVz3frJ8EWnwQBqrSKM#scrollTo=9XIUlBQth_P8" target="_blank" class="flex items-center justify-center p-3 bg-brand-yellow text-black rounded-lg hover:bg-black hover:text-brand-yellow transition-colors shadow-sm">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Other projects repeated pattern ... -->
+                 <div class="reveal h-full">
+                    <div class="group bg-[#FAFAFA] border border-slate-200 p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col h-full">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <span class="text-xs font-bold bg-black text-brand-yellow px-3 py-1 rounded-full uppercase tracking-wider">Hackathon</span>
+                                <h3 class="text-2xl font-bold text-slate-900 mt-4 group-hover:text-[#D4AF00] transition-colors">Regulatory Compliance Engine</h3>
+                                <p class="text-sm font-semibold text-slate-500 mt-1">Walmart Sparkathon 2025</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 mb-8 leading-relaxed line-clamp-3 flex-grow">AI-Powered engine using Ensemble AI, Conceptual Quantum NLP, and Blockchain to identify high-risk clauses in policy documents.</p>
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#Ensemble AI</span>
+                            <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#NLP</span>
+                        </div>
+                        <div class="flex gap-4 mt-auto">
+                            <button onclick="openProjectModal('Regulatory Compliance Engine')" class="flex-1 py-3 px-4 border-2 border-slate-200 text-slate-800 font-bold rounded-lg hover:border-black hover:bg-black hover:text-brand-yellow transition-colors">View Details</button>
+                            <a href="https://fdi-compliance-aid.vercel.app/" target="_blank" class="flex items-center justify-center p-3 bg-brand-yellow text-black rounded-lg hover:bg-black hover:text-brand-yellow transition-colors shadow-sm">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                 <div class="reveal h-full">
+                    <div class="group bg-[#FAFAFA] border border-slate-200 p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col h-full">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <span class="text-xs font-bold bg-black text-brand-yellow px-3 py-1 rounded-full uppercase tracking-wider">Hackathon</span>
+                                <h3 class="text-2xl font-bold text-slate-900 mt-4 group-hover:text-[#D4AF00] transition-colors">Drishti X - Event Safety</h3>
+                                <p class="text-sm font-semibold text-slate-500 mt-1">Google Cloud Agentic AI Day 2025</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 mb-8 leading-relaxed line-clamp-3 flex-grow">Real-time crowd analytics using Computer Vision to detect density, abnormal movement, and predict safety risks.</p>
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#Computer Vision</span>
+                            <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#Agentic AI</span>
+                        </div>
+                        <div class="flex gap-4 mt-auto">
+                            <button onclick="openProjectModal('Drishti X - Event Safety')" class="flex-1 py-3 px-4 border-2 border-slate-200 text-slate-800 font-bold rounded-lg hover:border-black hover:bg-black hover:text-brand-yellow transition-colors">View Details</button>
+                            <a href="https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2IvYy8xNTY3ODYxODgwNWQ1NzVjL0VTQ2ZsMFNNd1pORmttbTlrWGVndjl3QlpKbkJ4OExEdDNqSTJ5U2NibXFNNnc&cid=15678618805D575C&id=15678618805D575C%21s44979f20c18c45939269bd9177a0bfdc&parId=15678618805D575C%21sea8cc6beffdb43d7976fbc7da445c639&o=OneUp" target="_blank" class="flex items-center justify-center p-3 bg-brand-yellow text-black rounded-lg hover:bg-black hover:text-brand-yellow transition-colors shadow-sm">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                 <div class="reveal h-full">
+                    <div class="group bg-[#FAFAFA] border border-slate-200 p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col h-full">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <span class="text-xs font-bold bg-black text-brand-yellow px-3 py-1 rounded-full uppercase tracking-wider">Web Tool</span>
+                                <h3 class="text-2xl font-bold text-slate-900 mt-4 group-hover:text-[#D4AF00] transition-colors">Dynamic UI Optimizer</h3>
+                                <p class="text-sm font-semibold text-slate-500 mt-1">Adaptive Layout Engine</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 mb-8 leading-relaxed line-clamp-3 flex-grow">Automated adaptive UI layout engine that enhances user interaction patterns, accessibility, and responsiveness.</p>
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#UI/UX</span>
+                            <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#Automation</span>
+                        </div>
+                        <div class="flex gap-4 mt-auto">
+                            <button onclick="openProjectModal('Dynamic UI Optimizer')" class="flex-1 py-3 px-4 border-2 border-slate-200 text-slate-800 font-bold rounded-lg hover:border-black hover:bg-black hover:text-brand-yellow transition-colors">View Details</button>
+                            <a href="https://siri-2256.github.io/Dynamic_UI_Optimizer_/" target="_blank" class="flex items-center justify-center p-3 bg-brand-yellow text-black rounded-lg hover:bg-black hover:text-brand-yellow transition-colors shadow-sm">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research Section -->
+    <section id="research" class="py-20 bg-[#F9FAFB]">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="reveal">
+                <div class="flex items-end gap-4 mb-12 border-b-2 border-slate-200 pb-4">
+                    <i data-lucide="book-open" class="w-10 h-10 text-brand-yellow mb-2"></i>
+                    <h2 class="text-4xl font-black text-slate-900 uppercase tracking-tight">Research Work</h2>
+                </div>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Research Paper 1 -->
+                <div class="reveal">
+                    <div class="bg-white border-l-8 border-brand-yellow p-8 rounded-r-2xl shadow-sm hover:shadow-lg transition-all relative group">
+                        <div class="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
+                            <div>
+                                <h3 class="text-2xl font-bold text-slate-900">Obesity Prediction Research</h3>
+                                <p class="text-lg font-medium text-slate-500">IEEE ICCoSD-25 Paper</p>
+                            </div>
+                            <a href="https://www.linkedin.com/posts/siri-chandana-kota-aa4340298_ieee-iccosd2025-bitmesra-activity-7360192973487198209-i8ge?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEfz7hwBv8TrnQqfc6doxiLNyqnCTznX8QE" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-slate-900 text-brand-yellow text-sm font-bold rounded-full hover:bg-black transition-colors">
+                                View Certificate <i data-lucide="external-link" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                        <p class="text-slate-700 leading-relaxed mb-6">Co-authored and presented this paper at the IEEE International Conference on Computing and Smart Devices. The research introduced a novel DeepHealthNet model and utilized XAI techniques like SHAP to interpret model predictions, enhancing trust and transparency in medical AI.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-gray-100 border border-slate-200 text-xs font-bold text-slate-600 rounded-full">#Research</span>
+                            <span class="px-3 py-1 bg-gray-100 border border-slate-200 text-xs font-bold text-slate-600 rounded-full">#Publication</span>
+                            <span class="px-3 py-1 bg-gray-100 border border-slate-200 text-xs font-bold text-slate-600 rounded-full">#XAI</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Internships, Certifications, Achievements -->
+    <section id="internships" class="py-20 bg-white">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="grid lg:grid-cols-2 gap-16">
+                
+                <!-- Internships -->
+                <div class="lg:col-span-2"> 
+                    <div class="reveal">
+                        <div class="flex items-center gap-4 mb-10">
+                            <div class="p-3 bg-black text-brand-yellow rounded-xl"><i data-lucide="award" class="w-6 h-6"></i></div>
+                            <h2 class="text-3xl font-black text-slate-900 uppercase">Internships</h2>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Grid -->
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="reveal relative pl-8 border-l-4 border-slate-200 hover:border-brand-yellow transition-colors duration-300">
+                            <div class="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-brand-yellow"></div>
+                            <a href="https://www.linkedin.com/posts/siri-chandana-kota-aa4340298_java-fullstackdeveloper-internship-activity-7351863676741615618-6Vlc?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEfz7hwBv8TrnQqfc6doxiLNyqnCTznX8QE" target="_blank" class="block bg-[#FAFAFA] p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all hover:-translate-y-1 relative group">
+                                <div class="absolute top-4 right-4 text-slate-400 group-hover:text-brand-yellow transition-colors"><i data-lucide="external-link" class="w-5 h-5"></i></div>
+                                <h4 class="text-lg font-bold text-slate-900">Java Full Stack Developer</h4>
+                                <div class="flex flex-wrap gap-x-3 text-sm font-medium text-slate-500 mt-1 mb-3">
+                                    <span class="text-black">Virtual Internship</span>
+                                    <span class="text-slate-300">•</span>
+                                    <span>Apr 2025 – Jun 2025</span>
+                                </div>
+                                <p class="text-slate-600 text-sm">Developed scalable web applications using Java stack.</p>
+                            </a>
+                        </div>
+                        <div class="reveal relative pl-8 border-l-4 border-slate-200 hover:border-brand-yellow transition-colors duration-300">
+                            <div class="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-brand-yellow"></div>
+                            <a href="https://www.linkedin.com/posts/siri-chandana-kota-aa4340298_dataengineering-internship-awsacademy-activity-7304901106575319043-CWVc?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEfz7hwBv8TrnQqfc6doxiLNyqnCTznX8QE" target="_blank" class="block bg-[#FAFAFA] p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all hover:-translate-y-1 relative group">
+                                <div class="absolute top-4 right-4 text-slate-400 group-hover:text-brand-yellow transition-colors"><i data-lucide="external-link" class="w-5 h-5"></i></div>
+                                <h4 class="text-lg font-bold text-slate-900">AWS Data Engineering</h4>
+                                <div class="flex flex-wrap gap-x-3 text-sm font-medium text-slate-500 mt-1 mb-3">
+                                    <span class="text-black">Virtual Internship</span>
+                                    <span class="text-slate-300">•</span>
+                                    <span>Jan 2025 – Mar 2025</span>
+                                </div>
+                                <p class="text-slate-600 text-sm">Worked on cloud data pipelines and storage solutions.</p>
+                            </a>
+                        </div>
+                        <div class="reveal relative pl-8 border-l-4 border-slate-200 hover:border-brand-yellow transition-colors duration-300">
+                            <div class="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-brand-yellow"></div>
+                            <a href="https://www.linkedin.com/posts/siri-chandana-kota-aa4340298_mistai-junipernetworks-virtualinternship-activity-7405135095042539520-c456?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEfz7hwBv8TrnQqfc6doxiLNyqnCTznX8QE" target="_blank" class="block bg-[#FAFAFA] p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all hover:-translate-y-1 relative group">
+                                <div class="absolute top-4 right-4 text-slate-400 group-hover:text-brand-yellow transition-colors"><i data-lucide="external-link" class="w-5 h-5"></i></div>
+                                <h4 class="text-lg font-bold text-slate-900">Juniper Mist-AI</h4>
+                                <div class="flex flex-wrap gap-x-3 text-sm font-medium text-slate-500 mt-1 mb-3">
+                                    <span class="text-black">Virtual Internship</span>
+                                    <span class="text-slate-300">•</span>
+                                    <span>Oct 2024 – Dec 2024</span>
+                                </div>
+                                <p class="text-slate-600 text-sm">Explored AI-driven networking solutions.</p>
+                            </a>
+                        </div>
+                        <div class="reveal relative pl-8 border-l-4 border-slate-200 hover:border-brand-yellow transition-colors duration-300">
+                            <div class="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-brand-yellow"></div>
+                            <a href="https://www.linkedin.com/posts/siri-chandana-kota-aa4340298_ai-machinelearning-googlefordevelopers-activity-7405128095483170816-hd-n?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEfz7hwBv8TrnQqfc6doxiLNyqnCTznX8QE" target="_blank" class="block bg-[#FAFAFA] p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all hover:-translate-y-1 relative group">
+                                <div class="absolute top-4 right-4 text-slate-400 group-hover:text-brand-yellow transition-colors"><i data-lucide="external-link" class="w-5 h-5"></i></div>
+                                <h4 class="text-lg font-bold text-slate-900">AIML Virtual Internship</h4>
+                                <div class="flex flex-wrap gap-x-3 text-sm font-medium text-slate-500 mt-1 mb-3">
+                                    <span class="text-black">Virtual Internship</span>
+                                    <span class="text-slate-300">•</span>
+                                    <span>Jul 2024 – Sep 2024</span>
+                                </div>
+                                <p class="text-slate-600 text-sm">Foundational training in AI/ML algorithms.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certifications (Grid Layout) -->
+                <div class="lg:col-span-2 mt-16" id="certifications">
+                    <div class="reveal">
+                        <div class="flex items-center gap-4 mb-10">
+                            <div class="p-3 bg-brand-yellow text-black rounded-xl"><i data-lucide="check-circle" class="w-6 h-6"></i></div>
+                            <h2 class="text-3xl font-black text-slate-900 uppercase">Certifications</h2>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-4 gap-6">
+                        <a href="https://www.linkedin.com/posts/siri-chandana-kota-aa4340298_microsoftcertified-azureai-artificialintelligence-activity-7312787031959449600-Ugg6?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEfz7hwBv8TrnQqfc6doxiLNyqnCTznX8QE" target="_blank" class="reveal flex flex-col justify-between p-6 bg-[#FAFAFA] rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full relative group">
+                            <div class="absolute top-4 right-4 text-slate-400 group-hover:text-brand-yellow transition-colors"><i data-lucide="external-link" class="w-5 h-5"></i></div>
+                            <div class="mb-4 text-brand-yellow"><i data-lucide="check-circle" class="w-8 h-8"></i></div>
+                            <div>
+                                <p class="font-bold text-slate-900 text-lg mb-2">Microsoft Azure Fundamentals</p>
+                                <p class="text-sm text-slate-500 font-medium">Microsoft</p>
+                            </div>
+                        </a>
+                        <a href="https://www.linkedin.com/posts/siri-chandana-kota-aa4340298_aws-awsacademy-cloudcomputing-activity-7405144613734318080-8loD?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEfz7hwBv8TrnQqfc6doxiLNyqnCTznX8QE" target="_blank" class="reveal flex flex-col justify-between p-6 bg-[#FAFAFA] rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full relative group">
+                            <div class="absolute top-4 right-4 text-slate-400 group-hover:text-brand-yellow transition-colors"><i data-lucide="external-link" class="w-5 h-5"></i></div>
+                            <div class="mb-4 text-brand-yellow"><i data-lucide="check-circle" class="w-8 h-8"></i></div>
+                            <div>
+                                <p class="font-bold text-slate-900 text-lg mb-2">AWS - Web Application</p>
+                                <p class="text-sm text-slate-500 font-medium">Amazon Web Services</p>
+                            </div>
+                        </a>
+                        <a href="https://www.linkedin.com/posts/siri-chandana-kota-aa4340298_aws-clouddeveloping-awsacademy-activity-7391490968308469760-IWD_?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEfz7hwBv8TrnQqfc6doxiLNyqnCTznX8QE" target="_blank" class="reveal flex flex-col justify-between p-6 bg-[#FAFAFA] rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full relative group">
+                            <div class="absolute top-4 right-4 text-slate-400 group-hover:text-brand-yellow transition-colors"><i data-lucide="external-link" class="w-5 h-5"></i></div>
+                            <div class="mb-4 text-brand-yellow"><i data-lucide="check-circle" class="w-8 h-8"></i></div>
+                            <div>
+                                <p class="font-bold text-slate-900 text-lg mb-2">AWS - Cloud Developing</p>
+                                <p class="text-sm text-slate-500 font-medium">Amazon Web Services</p>
+                            </div>
+                        </a>
+                        <a href="https://www.linkedin.com/posts/siri-chandana-kota-aa4340298_aws-cloudcomputing-awsacademy-activity-7389145213941784576-hT2D?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEfz7hwBv8TrnQqfc6doxiLNyqnCTznX8QE" target="_blank" class="reveal flex flex-col justify-between p-6 bg-[#FAFAFA] rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full relative group">
+                            <div class="absolute top-4 right-4 text-slate-400 group-hover:text-brand-yellow transition-colors"><i data-lucide="external-link" class="w-5 h-5"></i></div>
+                            <div class="mb-4 text-brand-yellow"><i data-lucide="check-circle" class="w-8 h-8"></i></div>
+                            <div>
+                                <p class="font-bold text-slate-900 text-lg mb-2">AWS - Cloud Foundations</p>
+                                <p class="text-sm text-slate-500 font-medium">Amazon Web Services</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Achievements & Extracurriculars Grid -->
+                <div class="lg:col-span-2 mt-16 grid md:grid-cols-2 gap-16">
+                    <!-- Achievements -->
+                    <section id="achievements">
+                        <div class="reveal">
+                            <div class="flex items-center gap-4 mb-10">
+                                <div class="p-3 bg-black text-brand-yellow rounded-xl"><i data-lucide="award" class="w-6 h-6"></i></div>
+                                <h2 class="text-3xl font-black text-slate-900 uppercase">Achievements</h2>
+                            </div>
+                        </div>
+                        <div class="space-y-6">
+                            <a href="https://www.linkedin.com/posts/siri-chandana-kota-aa4340298_academicexcellence-sruniversity-semestertopper-activity-7304541274131312640-JXl7?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEfz7hwBv8TrnQqfc6doxiLNyqnCTznX8QE" target="_blank" class="reveal flex items-start gap-4 p-5 bg-[#FAFAFA] rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all relative group">
+                                <div class="absolute top-4 right-4 text-slate-400 group-hover:text-brand-yellow transition-colors"><i data-lucide="external-link" class="w-5 h-5"></i></div>
+                                <div class="mt-1 text-slate-800"><i data-lucide="award" class="w-5 h-5"></i></div>
+                                <p class="font-medium text-slate-800 text-lg leading-snug">Semester Topper Award, School of CS & AI (2024–25, III Sem)</p>
+                            </a>
+                            <a href="https://www.linkedin.com/posts/siri-chandana-kota-aa4340298_semesterappreciation-sruniversity-activity-7304534860361056257-8SQ2?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEfz7hwBv8TrnQqfc6doxiLNyqnCTznX8QE" target="_blank" class="reveal flex items-start gap-4 p-5 bg-[#FAFAFA] rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all relative group">
+                                <div class="absolute top-4 right-4 text-slate-400 group-hover:text-brand-yellow transition-colors"><i data-lucide="external-link" class="w-5 h-5"></i></div>
+                                <div class="mt-1 text-slate-800"><i data-lucide="award" class="w-5 h-5"></i></div>
+                                <p class="font-medium text-slate-800 text-lg leading-snug">Certificate of Appreciation for Academic Excellence (2024–25, I Sem)</p>
+                            </a>
+                        </div>
+                    </section>
+
+                    <!-- Activities -->
+                    <section id="activities">
+                        <div class="reveal">
+                            <div class="flex items-center gap-4 mb-10">
+                                <div class="p-3 bg-slate-200 text-slate-700 rounded-xl"><i data-lucide="users" class="w-6 h-6"></i></div>
+                                <h2 class="text-3xl font-black text-slate-900 uppercase">Extracurriculars</h2>
+                            </div>
+                        </div>
+                        <div class="grid gap-6">
+                            <a href="https://www.linkedin.com/posts/srudatascience-club_datascience-datavision2025-csandai-ugcPost-7306927354432393218-B5pm?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEfz7hwBv8TrnQqfc6doxiLNyqnCTznX8QE" target="_blank" class="reveal bg-brand-dark text-slate-300 p-6 rounded-2xl border-l-4 border-brand-yellow hover:shadow-xl transition-shadow block relative group">
+                                <div class="absolute top-4 right-4 text-slate-400 group-hover:text-brand-yellow transition-colors"><i data-lucide="external-link" class="w-5 h-5"></i></div>
+                                <h4 class="text-white font-bold text-xl mb-2">Data Science Club</h4>
+                                <p class="text-sm font-bold text-brand-yellow uppercase tracking-wider mb-2">Core Committee Member</p>
+                                <p class="text-sm opacity-80 leading-relaxed">Organized hands-on sessions on Python for Data Science for 50+ attendees.</p>
+                            </a>
+                            <div class="reveal bg-brand-dark text-slate-300 p-6 rounded-2xl border-l-4 border-brand-yellow hover:shadow-xl transition-shadow relative group">
+                                <!-- No link provided for Arts Club, so no external link icon added here -->
+                                <h4 class="text-white font-bold text-xl mb-2">Arts Club</h4>
+                                <p class="text-sm font-bold text-brand-yellow uppercase tracking-wider mb-2">Active Volunteer</p>
+                                <p class="text-sm opacity-80 leading-relaxed">Contributed to cultural event planning and execution.</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-20 border-t-4 border-brand-yellow">
+        <div class="reveal container mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-6xl font-black mb-8 tracking-tight">
+                Let's Build Something <br /> 
+                <span class="text-brand-yellow">Amazing Together.</span>
+            </h2>
+            <button onclick="toggleModal('contactModal')" class="inline-flex items-center gap-3 px-10 py-5 bg-brand-yellow text-black font-bold text-lg rounded-full hover:bg-white transition-all transform hover:scale-105">
+                Get In Touch <i data-lucide="chevron-right" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Contact info & Socials moved here and centered -->
+            <div class="flex flex-col items-center gap-6 mt-10">
+                <div class="flex justify-center gap-6 items-center">
+                    <a href="mailto:kotasirichandana7@gmail.com" class="text-slate-400 hover:text-brand-yellow transition-colors"><i data-lucide="mail" class="w-6 h-6"></i></a>
+                    <a href="https://www.linkedin.com/in/siri-chandana-kota-aa4340298/" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-brand-yellow transition-colors"><i data-lucide="linkedin" class="w-6 h-6"></i></a>
+                    <a href="https://github.com/Siri-2256?tab=repositories" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-brand-yellow transition-colors"><i data-lucide="github" class="w-6 h-6"></i></a>
+                    <a href="https://www.credly.com/users/siri-chandana-kota.e0f72217/badges#credly" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-brand-yellow transition-colors"><i data-lucide="award" class="w-6 h-6"></i></a>
+                </div>
+            </div>
+
+            <div class="mt-10 pt-10 border-t border-slate-800 flex flex-col md:flex-row justify-center items-center gap-6">
+                <p class="text-slate-500 text-sm font-medium">© 2025 Siri.Portfolio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script logic -->
+    <script>
+        // --- DATA ---
+        const projects = {
+            'Obesity Risk Classification': {
+                type: "ML Project",
+                subtitle: "Deep Learning & Explainable AI",
+                details: "Engineered and trained multiple ML models to predict obesity levels, achieving 97% accuracy with a custom DeepHealthNet neural network in TensorFlow. Includes SHAP-based interpretability to explain model predictions.",
+                tags: ["Deep Learning", "Python", "DeepHealthNet", "IEEE"],
+                link: "https://colab.research.google.com/drive/1SgQp8Y4oYEC6eTVz3frJ8EWnwQBqrSKM#scrollTo=9XIUlBQth_P8"
+            },
+            'Regulatory Compliance Engine': {
+                type: "Hackathon",
+                subtitle: "Walmart Sparkathon 2025",
+                details: "Co-developed a functional demo that uses Ensemble AI, (conceptual) Quantum NLP, and Blockchain for proactive risk management and compliance automation. Built a module to automatically identify high-risk clauses in policy documents.",
+                tags: ["Ensemble AI", "NLP", "Blockchain", "Risk Mgmt"],
+                link: "https://fdi-compliance-aid.vercel.app/"
+            },
+            'Drishti X - Event Safety': {
+                type: "Hackathon",
+                subtitle: "Google Cloud Agentic AI Day 2025",
+                details: "Co-developed an agentic AI platform to enhance safety at large-scale public events. Implemented real-time crowd monitoring using computer vision (e.g., density estimation, movement patterns).",
+                tags: ["Computer Vision", "Agentic AI", "Safety Tech"],
+                link: "https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2IvYy8xNTY3ODYxODgwNWQ1NzVjL0VTQ2ZsMFNNd1pORmttbTlrWGVndjl3QlpKbkJ4OExEdDNqSTJ5U2NibXFNNnc&cid=15678618805D575C&id=15678618805D575C%21s44979f20c18c45939269bd9177a0bfdc&parId=15678618805D575C%21sea8cc6beffdb43d7976fbc7da445c639&o=OneUp"
+            },
+            'Dynamic UI Optimizer': {
+                type: "Web Tool",
+                subtitle: "Adaptive Layout Engine",
+                details: "Built a Dynamic UI Optimizer, an adaptive front-end system that automatically tunes UI layout, visual hierarchy, and interaction patterns in real time based on interaction data.",
+                tags: ["UI/UX", "Automation", "Accessibility", "Web"],
+                link: "https://siri-2256.github.io/Dynamic_UI_Optimizer_/"
+            }
+        };
+
+        // --- ICONS ---
+        lucide.createIcons();
+
+        // --- NAVBAR SCROLL ---
+        const navbar = document.getElementById('navbar');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const brandText = document.getElementById('brandText');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 60) {
+                navbar.classList.add('bg-[#2e2e2e]/90', 'backdrop-blur-md', 'border-b', 'border-brand-yellow', 'shadow-lg');
+                navbar.classList.remove('bg-transparent', 'py-6');
+                navbar.classList.add('py-4');
+                // Change text colors
+                brandText.classList.remove('text-slate-900');
+                brandText.classList.add('text-white');
+                navLinks.forEach(link => {
+                    link.classList.remove('text-slate-900');
+                    link.classList.add('text-white');
+                });
+            } else {
+                navbar.classList.remove('bg-[#2e2e2e]/90', 'backdrop-blur-md', 'border-b', 'border-brand-yellow', 'shadow-lg');
+                navbar.classList.add('bg-transparent', 'py-6');
+                navbar.classList.remove('py-4');
+                // Revert text colors
+                brandText.classList.add('text-slate-900');
+                brandText.classList.remove('text-white');
+                navLinks.forEach(link => {
+                    link.classList.add('text-slate-900');
+                    link.classList.remove('text-white');
+                });
+            }
+        });
+
+        // --- MODALS ---
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+
+        function openProjectModal(title) {
+            const data = projects[title];
+            if (!data) return;
+
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalType').textContent = data.type;
+            document.getElementById('modalSubtitle').textContent = data.subtitle;
+            document.getElementById('modalDescription').textContent = data.details;
+            document.getElementById('modalLink').href = data.link;
+
+            const tagsContainer = document.getElementById('modalTags');
+            tagsContainer.innerHTML = '';
+            data.tags.forEach(tag => {
+                const span = document.createElement('span');
+                span.className = "px-3 py-1 bg-slate-100 text-xs font-bold text-slate-600 rounded-lg";
+                span.textContent = `#${tag}`;
+                tagsContainer.appendChild(span);
+            });
+
+            toggleModal('projectModal');
+        }
+
+        function closeProjectModal() {
+            toggleModal('projectModal');
+        }
+
+        // --- SCROLL REVEAL ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // --- TYPEWRITER ---
+        const texts = [
+            "B.Tech CSE (AI & ML)",
+            "Frontend Developer Enthusiast", 
+            "Explainable AI Researcher",
+            "Deep Learning & XAI"
+        ];
+        let count = 0;
+        let index = 0;
+        let currentText = '';
+        let letter = '';
+        let isDeleting = false;
+
+        (function type() {
+            if (count === texts.length) {
+                count = 0;
+            }
+            currentText = texts[count];
+
+            if (isDeleting) {
+                letter = currentText.slice(0, --index);
+            } else {
+                letter = currentText.slice(0, ++index);
+            }
+
+            document.getElementById('typewriter').textContent = letter;
+
+            let typeSpeed = 150;
+            if (isDeleting) typeSpeed = 50;
+
+            if (!isDeleting && letter.length === currentText.length) {
+                typeSpeed = 2000; // Pause at end
+                isDeleting = true;
+            } else if (isDeleting && letter.length === 0) {
+                isDeleting = false;
+                count++;
+                typeSpeed = 500;
+            }
+
+            setTimeout(type, typeSpeed);
+        })();
+    </script>
+</body>
+</html>
