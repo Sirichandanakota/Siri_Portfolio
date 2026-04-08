@@ -9,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+   <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Custom Styles -->
     <style>
@@ -22,11 +22,12 @@
             scrollbar-width: none;  /* Firefox */
         }
 
-        /* Reveal Animation Classes */
+        /* Enhanced Reveal Animations */
         .reveal {
             opacity: 0;
-            transform: translateY(3rem);
-            transition: all 1s ease-out;
+            transform: translateY(40px);
+            /* Using a custom cubic-bezier for a snappier, more modern "spring" feel */
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .reveal.active {
             opacity: 1;
@@ -45,11 +46,13 @@
             50% { opacity: 0; }
         }
         
-        /* Subtle float animation for background elements */
+        /* Floating Animation for Hero and Icons */
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
         }
     </style>
     <script>
@@ -65,7 +68,7 @@
         }
     </script>
 </head>
-<body class="bg-gray-100 text-slate-900 font-sans selection:bg-brand-yellow selection:text-black">
+<body class="bg-gray-100 text-slate-900 font-sans selection:bg-brand-yellow selection:text-black overflow-x-hidden">
 
     <!-- Skip Link -->
     <a href="#hero" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[100] px-4 py-2 bg-brand-yellow text-black font-bold rounded">
@@ -212,7 +215,7 @@
                     <img 
                         src="./assets/Siri_Portfolio_Image.jpeg"
                         alt="Siri Chandana — profile photo"
-                        class="relative w-48 h-48 lg:w-56 lg:h-56 object-cover rounded-full border-[6px] border-white shadow-xl transform transition-transform duration-500 hover:scale-105"
+                        class="relative w-48 h-48 lg:w-56 lg:h-56 object-cover rounded-full border-[6px] border-white shadow-xl transform transition-transform duration-500 hover:scale-105 animate-float"
                         onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Siri&backgroundColor=b6e3f4'; this.alt='Placeholder (Upload photo to assets/Siri_Portfolio_Image.jpeg)';"
                     />
                 </div>
@@ -236,28 +239,38 @@
                 </div>
             </div>
 
-<div class="reveal">
+           <div class="reveal">
     <div class="flex justify-center gap-6 mb-8">
-        <a href="mailto:kotasirichandana7@gmail.com" class="p-3 bg-white rounded-full shadow-md text-slate-600 hover:text-brand-yellow hover:shadow-lg hover:-translate-y-1 transition-all border border-slate-100">
+        
+        <!-- Email -->
+        <a href="mailto:kotasirichandana7@gmail.com" 
+           class="p-3 bg-white rounded-full shadow-md text-slate-600 hover:text-yellow-500 hover:shadow-lg hover:-translate-y-1 transition-all border border-slate-100">
             <i data-lucide="mail" class="w-6 h-6"></i>
         </a>
-        <a href="https://www.linkedin.com/in/siri-chandana-kota-aa4340298/" target="_blank" rel="noopener noreferrer" class="p-3 bg-white rounded-full shadow-md text-slate-600 hover:text-brand-yellow hover:shadow-lg hover:-translate-y-1 transition-all border border-slate-100">
+
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/siri-chandana-kota-aa4340298/" 
+           target="_blank" rel="noopener noreferrer"
+           class="p-3 bg-white rounded-full shadow-md text-slate-600 hover:text-yellow-500 hover:shadow-lg hover:-translate-y-1 transition-all border border-slate-100">
             <i data-lucide="linkedin" class="w-6 h-6"></i>
         </a>
-        <a href="https://github.com/Sirichandanakota?tab=repositories" target="_blank" rel="noopener noreferrer" class="p-3 bg-white rounded-full shadow-md text-slate-600 hover:text-brand-yellow hover:shadow-lg hover:-translate-y-1 transition-all border border-slate-100">
+
+        <!-- GitHub -->
+        <a href="https://github.com/Sirichandanakota" 
+           target="_blank" rel="noopener noreferrer"
+           class="p-3 bg-white rounded-full shadow-md text-slate-600 hover:text-yellow-500 hover:shadow-lg hover:-translate-y-1 transition-all border border-slate-100">
             <i data-lucide="github" class="w-6 h-6"></i>
         </a>
-        <a href="https://www.credly.com/users/siri-chandana-kota.e0f72217/badges#credly" target="_blank" rel="noopener noreferrer" class="p-3 bg-white rounded-full shadow-md text-slate-600 hover:text-brand-yellow hover:shadow-lg hover:-translate-y-1 transition-all border border-slate-100">
+
+        <!-- Credly -->
+        <a href="https://www.credly.com/users/siri-chandana-kota.e0f72217" 
+           target="_blank" rel="noopener noreferrer"
+           class="p-3 bg-white rounded-full shadow-md text-slate-600 hover:text-yellow-500 hover:shadow-lg hover:-translate-y-1 transition-all border border-slate-100">
             <i data-lucide="award" class="w-6 h-6"></i>
         </a>
+
     </div>
 </div>
-
-<script src="https://unpkg.com/lucide@latest"></script>
-<script>
-  lucide.createIcons();
-</script>
-            
             <!-- Paragraph -->
             <div class="reveal">
                 <p class="text-lg text-slate-600 font-medium max-w-2xl mx-auto mb-10">
@@ -303,13 +316,13 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
         <!-- Header -->
         <div class="reveal">
             <div class="flex items-end gap-4 mb-12 border-b-2 border-slate-200 pb-4">
-                <i data-lucide="cpu" class="w-10 h-10 text-brand-yellow mb-2"></i>
+                <i data-lucide="cpu" class="w-10 h-10 text-brand-yellow mb-2 animate-pulse"></i>
                 <h2 class="text-4xl font-black text-slate-900 uppercase tracking-tight">Skills</h2>
             </div>
         </div>
 
-        <!-- 3 Columns -->
-        <div class="grid md:grid-cols-3 gap-8">
+        <!-- 3 Columns - Fully responsive grids -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
             <!-- Technical Skills -->
             <div class="reveal bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg transition-all">
@@ -317,13 +330,13 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
                     Technical Skills
                 </h3>
                 <div class="flex flex-wrap gap-3">
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">Java</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">DSA in Java</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">Python</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">HTML</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">CSS</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">OOP</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">REST APIs</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">Java</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">DSA in Java</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">Python</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">HTML</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">CSS</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">OOP</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">REST APIs</span>
                 </div>
             </div>
 
@@ -331,18 +344,18 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
             <div class="reveal bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg transition-all">
                 <h3 class="text-xl font-bold text-slate-900 mb-4 border-l-4 border-brand-yellow pl-3">AI & ML</h3>
                 <div class="flex flex-wrap gap-3 mb-6">
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">TensorFlow</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">Scikit-learn</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">Pandas</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">NumPy</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">XAI</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">TensorFlow</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">Scikit-learn</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">Pandas</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">NumPy</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">XAI</span>
                 </div>
 
                 <h3 class="text-xl font-bold text-slate-900 mb-4 border-l-4 border-brand-yellow pl-3">Tools & Others</h3>
                 <div class="flex flex-wrap gap-3">
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">Git</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">GitHub</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">UI/UX Design</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">Git</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">GitHub</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">UI/UX Design</span>
                 </div>
             </div>
 
@@ -350,13 +363,13 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
             <div class="reveal bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg transition-all">
                 <h3 class="text-xl font-bold text-slate-900 mb-4 border-l-4 border-brand-yellow pl-3">Soft Skills</h3>
                 <div class="flex flex-wrap gap-3">
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">Problem-Solving</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">Communication</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">Research Writing & Presentation</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">Project Management</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">Time Management</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">Flexibility</span>
-                    <span class="px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black transition-all cursor-default">Organization</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">Problem-Solving</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">Communication</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">Research Writing & Presentation</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">Project Management</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">Time Management</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">Flexibility</span>
+                    <span class="inline-block px-4 py-2 bg-gray-50 border border-slate-300 text-sm font-medium text-slate-700 rounded-full shadow-sm hover:bg-[#FFE97A] hover:border-[#FFD400] hover:text-black hover:scale-110 hover:-translate-y-1 transition-all duration-300 cursor-default">Organization</span>
                 </div>
             </div>
 
@@ -375,10 +388,11 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
                 </div>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-8" id="projectsGrid">
-                <!-- Projects injected by JS -->
+            <!-- Changed to grid-cols-1 to show 1 item per row. Added max-w-4xl to prevent extreme stretching on large screens -->
+            <div class="grid grid-cols-1 gap-8 lg:max-w-4xl lg:mx-auto" id="projectsGrid">
+                
                 <!-- Project 1 -->
-                <div class="reveal h-full">
+                <div class="reveal">
                     <div class="group bg-[#FAFAFA] border border-slate-200 p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col h-full">
                         <div class="flex justify-between items-start mb-6">
                             <div>
@@ -386,23 +400,25 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
                                 <h3 class="text-2xl font-bold text-slate-900 mt-4 group-hover:text-[#D4AF00] transition-colors">Obesity Risk Prediction</h3>
                                 <p class="text-sm font-semibold text-slate-500 mt-1">Deep Learning & Explainable AI</p>
                             </div>
+                            <!-- Top Right Link Box -->
+                            <a href="https://obesity-prediction-research-paper.vercel.app/" target="_blank" class="p-3 bg-white border border-slate-200 rounded-xl text-slate-500 hover:text-brand-yellow hover:bg-black hover:border-black transition-all group-hover:shadow-md" aria-label="Visit external link">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
                         </div>
-                        <p class="text-slate-600 mb-8 leading-relaxed line-clamp-3 flex-grow">Built a research-driven Deep Learning ML Web Application to predict obesity risk using SHAP-based Explainable AI, ensuring accurate and transparent healthcare predictions.</p>
+                        <p class="text-slate-600 mb-8 leading-relaxed flex-grow">Built a research-driven Deep Learning ML Web Application to predict obesity risk using SHAP-based Explainable AI, ensuring accurate and transparent healthcare predictions.</p>
                         <div class="flex flex-wrap gap-2 mb-8">
                             <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#Deep Learning</span>
                             <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#Python</span>
                             <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#Web App</span>
                         </div>
-                        <div class="flex gap-4 mt-auto">
-                           <button onclick="openProjectModal('Obesity Risk Prediction')" class="flex-1 py-3 px-4 border-2 border-slate-200 text-slate-800 font-bold rounded-lg hover:border-black hover:bg-black hover:text-brand-yellow transition-colors">View Details</button>
-                            <a href="https://obesity-prediction-research-paper.vercel.app/" target="_blank" class="flex items-center justify-center p-3 bg-brand-yellow text-black rounded-lg hover:bg-black hover:text-brand-yellow transition-colors shadow-sm">
-                                <i data-lucide="external-link" class="w-5 h-5"></i>
-                            </a>
+                        <div class="flex mt-auto">
+                           <button onclick="openProjectModal('Obesity Risk Prediction')" class="w-full py-3 px-4 border-2 border-slate-200 text-slate-800 font-bold rounded-lg hover:border-black hover:bg-black hover:text-brand-yellow transition-colors">View Details</button>
                         </div>
                     </div>
                 </div>
-                <!-- Other projects repeated pattern ... -->
-                 <div class="reveal h-full">
+                
+                 <!-- Project 2 -->
+                 <div class="reveal">
                     <div class="group bg-[#FAFAFA] border border-slate-200 p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col h-full">
                         <div class="flex justify-between items-start mb-6">
                             <div>
@@ -410,44 +426,25 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
                                 <h3 class="text-2xl font-bold text-slate-900 mt-4 group-hover:text-[#D4AF00] transition-colors">Resume Maker </h3>
                                 <p class="text-sm font-semibold text-slate-500 mt-1">Personal Project | 2026</p>
                             </div>
+                            <!-- Top Right Link Box -->
+                            <a href="https://resume-maker-co.netlify.app/" target="_blank" class="p-3 bg-white border border-slate-200 rounded-xl text-slate-500 hover:text-brand-yellow hover:bg-black hover:border-black transition-all group-hover:shadow-md" aria-label="Visit external link">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
                         </div>
-                        <p class="text-slate-600 mb-8 leading-relaxed line-clamp-3 flex-grow">AI-Powered engine using Ensemble AI, Conceptual Quantum NLP, and Blockchain to identify high-risk clauses in policy documents.
-                        [Employee ID: EMP 2256 ; Password: securepass] </p>
+                        <p class="text-slate-600 mb-8 leading-relaxed flex-grow">Clean and user-friendly resume builder with real-time preview and multiple templates. Enables users to generate professional, ATS-friendly resumes efficiently.<br>
+                       
                         <div class="flex flex-wrap gap-2 mb-8">
                             <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">ReactJS</span>
-                            <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#</span>
+                            <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#NodeJS</span>
                         </div>
-                        <div class="flex gap-4 mt-auto">
-                            <button onclick="openProjectModal('Regulatory Compliance Engine')" class="flex-1 py-3 px-4 border-2 border-slate-200 text-slate-800 font-bold rounded-lg hover:border-black hover:bg-black hover:text-brand-yellow transition-colors">View Details</button>
-                            <a href="https://resume-maker-co.netlify.app/" target="_blank" class="flex items-center justify-center p-3 bg-brand-yellow text-black rounded-lg hover:bg-black hover:text-brand-yellow transition-colors shadow-sm">
-                                <i data-lucide="external-link" class="w-5 h-5"></i>
-                            </a>
+                        <div class="flex mt-auto">
+                            <button onclick="openProjectModal('Resume Maker')" class="w-full py-3 px-4 border-2 border-slate-200 text-slate-800 font-bold rounded-lg hover:border-black hover:bg-black hover:text-brand-yellow transition-colors">View Details</button>
                         </div>
                     </div>
                 </div>
-                 <div class="reveal h-full">
-                    <div class="group bg-[#FAFAFA] border border-slate-200 p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col h-full">
-                        <div class="flex justify-between items-start mb-6">
-                            <div>
-                                <span class="text-xs font-bold bg-black text-brand-yellow px-3 py-1 rounded-full uppercase tracking-wider">Hackathon</span>
-                                <h3 class="text-2xl font-bold text-slate-900 mt-4 group-hover:text-[#D4AF00] transition-colors">Drishti X - Event Safety</h3>
-                                <p class="text-sm font-semibold text-slate-500 mt-1">Google Cloud Agentic AI Day 2025</p>
-                            </div>
-                        </div>
-                        <p class="text-slate-600 mb-8 leading-relaxed line-clamp-3 flex-grow">Real-time crowd analytics using Computer Vision to detect density, abnormal movement, and predict safety risks.</p>
-                        <div class="flex flex-wrap gap-2 mb-8">
-                            <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#Computer Vision</span>
-                            <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#Agentic AI</span>
-                        </div>
-                        <div class="flex gap-4 mt-auto">
-                            <button onclick="openProjectModal('Drishti X - Event Safety')" class="flex-1 py-3 px-4 border-2 border-slate-200 text-slate-800 font-bold rounded-lg hover:border-black hover:bg-black hover:text-brand-yellow transition-colors">View Details</button>
-                            <a href="https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2IvYy8xNTY3ODYxODgwNWQ1NzVjL0VTQ2ZsMFNNd1pORmttbTlrWGVndjl3QlpKbkJ4OExEdDNqSTJ5U2NibXFNNnc&cid=15678618805D575C&id=15678618805D575C%21s44979f20c18c45939269bd9177a0bfdc&parId=15678618805D575C%21sea8cc6beffdb43d7976fbc7da445c639&o=OneUp" target="_blank" class="flex items-center justify-center p-3 bg-brand-yellow text-black rounded-lg hover:bg-black hover:text-brand-yellow transition-colors shadow-sm">
-                                <i data-lucide="external-link" class="w-5 h-5"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                 <div class="reveal h-full">
+
+                 <!-- Project 3 -->
+                 <div class="reveal">
                     <div class="group bg-[#FAFAFA] border border-slate-200 p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col h-full">
                         <div class="flex justify-between items-start mb-6">
                             <div>
@@ -455,17 +452,18 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
                                 <h3 class="text-2xl font-bold text-slate-900 mt-4 group-hover:text-[#D4AF00] transition-colors">Dynamic UI Optimizer</h3>
                                 <p class="text-sm font-semibold text-slate-500 mt-1">Adaptive Layout Engine</p>
                             </div>
+                            <!-- Top Right Link Box -->
+                            <a href="https://sirichandanakota.github.io/Dynamic_UI_Optimizer_/" target="_blank" class="p-3 bg-white border border-slate-200 rounded-xl text-slate-500 hover:text-brand-yellow hover:bg-black hover:border-black transition-all group-hover:shadow-md" aria-label="Visit external link">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
                         </div>
-                        <p class="text-slate-600 mb-8 leading-relaxed line-clamp-3 flex-grow">Automated adaptive UI layout engine that enhances user interaction patterns, accessibility, and responsiveness.</p>
+                        <p class="text-slate-600 mb-8 leading-relaxed flex-grow">Automated adaptive UI layout engine that enhances user interaction patterns, accessibility, and responsiveness.</p>
                         <div class="flex flex-wrap gap-2 mb-8">
                             <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#UI/UX</span>
                             <span class="px-3 py-1 bg-white border border-slate-200 text-xs font-bold text-slate-600 rounded-lg">#Automation</span>
                         </div>
-                        <div class="flex gap-4 mt-auto">
-                            <button onclick="openProjectModal('Dynamic UI Optimizer')" class="flex-1 py-3 px-4 border-2 border-slate-200 text-slate-800 font-bold rounded-lg hover:border-black hover:bg-black hover:text-brand-yellow transition-colors">View Details</button>
-                            <a href="https://sirichandanakota.github.io/Dynamic_UI_Optimizer_/" target="_blank" class="flex items-center justify-center p-3 bg-brand-yellow text-black rounded-lg hover:bg-black hover:text-brand-yellow transition-colors shadow-sm">
-                                <i data-lucide="external-link" class="w-5 h-5"></i>
-                            </a>
+                        <div class="flex mt-auto">
+                            <button onclick="openProjectModal('Dynamic UI Optimizer')" class="w-full py-3 px-4 border-2 border-slate-200 text-slate-800 font-bold rounded-lg hover:border-black hover:bg-black hover:text-brand-yellow transition-colors">View Details</button>
                         </div>
                     </div>
                 </div>
@@ -478,7 +476,7 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
         <div class="container mx-auto px-6 max-w-6xl">
             <div class="reveal">
                 <div class="flex items-end gap-4 mb-12 border-b-2 border-slate-200 pb-4">
-                    <i data-lucide="book-open" class="w-10 h-10 text-brand-yellow mb-2"></i>
+                    <i data-lucide="book-open" class="w-10 h-10 text-brand-yellow mb-2 animate-pulse"></i>
                     <h2 class="text-4xl font-black text-slate-900 uppercase tracking-tight">Research Publication</h2>
                 </div>
             </div>
@@ -497,23 +495,22 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
                                 </p>
 
                             </div>
-                            <div class="flex flex-wrap gap-3">
-
-    <a href="https://ieeexplore.ieee.org/document/11348622"
-       target="_blank"
-       class="flex items-center gap-2 px-4 py-2 bg-brand-yellow text-black text-sm font-bold rounded-full hover:bg-black hover:text-brand-yellow transition-colors">
-        IEEE Xplore Paper <i data-lucide="external-link" class="w-4 h-4"></i>
-    </a>
-    <a href="https://www.linkedin.com/posts/siri-chandana-kota-aa4340298_ieee-iccosd2025-bitmesra-activity-7360192973487198209-i8ge"
-       target="_blank"
-       class="flex items-center gap-2 px-4 py-2 bg-slate-900 text-brand-yellow text-sm font-bold rounded-full hover:bg-black transition-colors">
-        Certificate <i data-lucide="external-link" class="w-4 h-4"></i>
-    </a>
-</div>
+                            <div class="flex flex-wrap gap-3 mt-4 md:mt-0">
+                                <a href="https://ieeexplore.ieee.org/document/11348622"
+                                   target="_blank"
+                                   class="flex items-center gap-2 px-4 py-2 bg-brand-yellow text-black text-sm font-bold rounded-full hover:bg-black hover:text-brand-yellow transition-colors">
+                                    IEEE Xplore Paper <i data-lucide="external-link" class="w-4 h-4"></i>
+                                </a>
+                                <a href="https://www.linkedin.com/posts/siri-chandana-kota-aa4340298_ieee-iccosd2025-bitmesra-activity-7360192973487198209-i8ge"
+                                   target="_blank"
+                                   class="flex items-center gap-2 px-4 py-2 bg-slate-900 text-brand-yellow text-sm font-bold rounded-full hover:bg-black transition-colors">
+                                    Certificate <i data-lucide="external-link" class="w-4 h-4"></i>
+                                </a>
+                            </div>
 
                         </div>
                         <p class="text-slate-700 leading-relaxed mb-6">Presented at the IEEE International Conference on Communication and Smart Devices <strong>(ICCoSD-2025)</strong>. The research introduced a novel DeepHealthNet model and utilized XAI techniques like SHAP to interpret model predictions, enhancing trust and transparency in medical AI.
-                        <strong>Publication Date:</strong> 26 January 2026
+                        <br><br><strong>Publication Date:</strong> 26 January 2026
                         </p>
                         <div class="flex flex-wrap gap-2">
                             <span class="px-3 py-1 bg-gray-100 border border-slate-200 text-xs font-bold text-slate-600 rounded-full">#Research</span>
@@ -535,13 +532,13 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
                 <div class="lg:col-span-2"> 
                     <div class="reveal">
                         <div class="flex items-center gap-4 mb-10">
-                            <div class="p-3 bg-black text-brand-yellow rounded-xl"><i data-lucide="award" class="w-6 h-6"></i></div>
+                            <div class="p-3 bg-black text-brand-yellow rounded-xl"><i data-lucide="award" class="w-6 h-6 animate-pulse"></i></div>
                             <h2 class="text-3xl font-black text-slate-900 uppercase">Internships</h2>
                         </div>
                     </div>
                     
-                    <!-- Timeline Grid -->
-                    <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Timeline Grid responsive updates -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="reveal relative pl-8 border-l-4 border-slate-200 hover:border-brand-yellow transition-colors duration-300">
                             <div class="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-brand-yellow"></div>
                             <a href="https://www.linkedin.com/posts/siri-chandana-kota-aa4340298_java-fullstackdeveloper-internship-activity-7351863676741615618-6Vlc?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEfz7hwBv8TrnQqfc6doxiLNyqnCTznX8QE" target="_blank" class="block bg-[#FAFAFA] p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all hover:-translate-y-1 relative group">
@@ -601,11 +598,12 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
                 <div class="lg:col-span-2 mt-16" id="certifications">
                     <div class="reveal">
                         <div class="flex items-center gap-4 mb-10">
-                            <div class="p-3 bg-brand-yellow text-black rounded-xl"><i data-lucide="check-circle" class="w-6 h-6"></i></div>
+                            <div class="p-3 bg-brand-yellow text-black rounded-xl"><i data-lucide="check-circle" class="w-6 h-6 animate-pulse"></i></div>
                             <h2 class="text-3xl font-black text-slate-900 uppercase">Certifications</h2>
                         </div>
                     </div>
-                    <div class="grid md:grid-cols-4 gap-6">
+                    <!-- Made fully responsive grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         <a href="https://www.linkedin.com/posts/siri-chandana-kota-aa4340298_microsoftcertified-azureai-artificialintelligence-activity-7312787031959449600-Ugg6?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEfz7hwBv8TrnQqfc6doxiLNyqnCTznX8QE" target="_blank" class="reveal flex flex-col justify-between p-6 bg-[#FAFAFA] rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full relative group">
                             <div class="absolute top-4 right-4 text-slate-400 group-hover:text-brand-yellow transition-colors"><i data-lucide="external-link" class="w-5 h-5"></i></div>
                             <div class="mb-4 text-brand-yellow"><i data-lucide="check-circle" class="w-8 h-8"></i></div>
@@ -642,12 +640,12 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
                 </div>
 
                 <!-- Achievements & Extracurriculars Grid -->
-                <div class="lg:col-span-2 mt-16 grid md:grid-cols-2 gap-16">
+                <div class="lg:col-span-2 mt-16 grid grid-cols-1 lg:grid-cols-2 gap-16">
                     <!-- Achievements -->
                     <section id="achievements">
                         <div class="reveal">
                             <div class="flex items-center gap-4 mb-10">
-                                <div class="p-3 bg-black text-brand-yellow rounded-xl"><i data-lucide="award" class="w-6 h-6"></i></div>
+                                <div class="p-3 bg-black text-brand-yellow rounded-xl"><i data-lucide="award" class="w-6 h-6 animate-pulse"></i></div>
                                 <h2 class="text-3xl font-black text-slate-900 uppercase">Achievements</h2>
                             </div>
                         </div>
@@ -669,7 +667,7 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
                     <section id="activities">
                         <div class="reveal">
                             <div class="flex items-center gap-4 mb-10">
-                                <div class="p-3 bg-slate-200 text-slate-700 rounded-xl"><i data-lucide="users" class="w-6 h-6"></i></div>
+                                <div class="p-3 bg-slate-200 text-slate-700 rounded-xl"><i data-lucide="users" class="w-6 h-6 animate-pulse"></i></div>
                                 <h2 class="text-3xl font-black text-slate-900 uppercase">Extracurriculars</h2>
                             </div>
                         </div>
@@ -730,21 +728,14 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
                 subtitle: "Deep Learning & Explainable AI",
                 details: "Addresses real-world healthcare challenges by enabling early obesity risk identification through data-driven analysis. The project implements an end-to-end machine learning pipeline—from data preprocessing and feature engineering to neural network training, explainability integration, and live web deployment. Designed with a user-centric interface, the platform allows individuals to input lifestyle and health parameters and receive instant, interpretable predictions. This work demonstrates the transformation of academic research into a practical, accessible AI solution that balances performance, transparency, and real-world usability.",
                 tags: ["Deep Learning", "Python", "DeepHealthNet", "IEEE"],
-                link: "https://obesityprediction.netlify.app/"
+                link: "https://obesity-prediction-research-paper.vercel.app/"
             },
-            'Regulatory Compliance Engine': {
-                type: "Hackathon",
-                subtitle: "Walmart Sparkathon 2025",
-                details: "Co-developed a functional demo that uses Ensemble AI, (conceptual) Quantum NLP, and Blockchain for proactive risk management and compliance automation. Built a module to automatically identify high-risk clauses in policy documents.",
-                tags: ["Ensemble AI", "NLP", "Blockchain", "Risk Mgmt"],
-                link: "https://fdi-compliance-aid.vercel.app/"
-            },
-            'Drishti X - Event Safety': {
-                type: "Hackathon",
-                subtitle: "Google Cloud Agentic AI Day 2025",
-                details: "Co-developed an agentic AI platform to enhance safety at large-scale public events. Implemented real-time crowd monitoring using computer vision (e.g., density estimation, movement patterns).",
-                tags: ["Computer Vision", "Agentic AI", "Safety Tech"],
-                link: "https://onedrive.live.com/?redeem=aHR0cHM6Ly8xZHJ2Lm1zL2IvYy8xNTY3ODYxODgwNWQ1NzVjL0VTQ2ZsMFNNd1pORmttbTlrWGVndjl3QlpKbkJ4OExEdDNqSTJ5U2NibXFNNnc&cid=15678618805D575C&id=15678618805D575C%21s44979f20c18c45939269bd9177a0bfdc&parId=15678618805D575C%21sea8cc6beffdb43d7976fbc7da445c639&o=OneUp"
+            'Resume Maker': {
+                type: "Web App",
+                subtitle: "Personal Project",
+                details: "A fully functional resume creation platform designed to simplify professional resume building. Real-time preview while editing resume, Multiple customizable templates, Structured form-based input system, Secure authentication using JWT, Export resumes as high-quality PDF, Designed for ATS compatibility",
+                tags: ["ReactJS", "NodeJS", "Authentication"],
+                link: "https://resume-maker-co.netlify.app/"
             },
             'Dynamic UI Optimizer': {
                 type: "Web Tool",
@@ -756,7 +747,10 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
         };
 
         // --- ICONS ---
-        lucide.createIcons();
+        // Call this once at the bottom so all icons load properly
+        window.addEventListener("load", () => {
+  lucide.createIcons();
+});
 
         // --- NAVBAR SCROLL ---
         const navbar = document.getElementById('navbar');
@@ -816,13 +810,20 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
             });
 
             toggleModal('projectModal');
+             lucide.createIcons();
+            
         }
 
         function closeProjectModal() {
             toggleModal('projectModal');
         }
 
-        // --- SCROLL REVEAL ---
+        // --- ENHANCED SCROLL REVEAL ---
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px" // Triggers slightly before the element hits the bottom
+        };
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -830,7 +831,16 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1 });
+        }, observerOptions);
+
+        // Automatically add staggered delays to items inside grid layouts
+        document.querySelectorAll('.grid').forEach(grid => {
+            const reveals = grid.querySelectorAll('.reveal');
+            reveals.forEach((el, index) => {
+                // Stagger each item by 150ms for a cascading effect
+                el.style.transitionDelay = `${index * 150}ms`;
+            });
+        });
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
@@ -878,31 +888,3 @@ I enjoy turning complex ideas into simple, meaningful digital experiences that u
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
